@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}StayFinder — encontre sua próxima hospedagem{% endblock %}
+{% block content %}
+<section class="hero rounded-4 p-4 p-md-5 mb-5">
+  <div class="row align-items-center"><div class="col-lg-7">
+    <span class="eyebrow">SUA PRÓXIMA VIAGEM COMEÇA AQUI</span>
+    <h1 class="display-5 fw-bold mt-2">Encontre um lugar para chamar de seu.</h1>
+    <p class="lead text-secondary">Hospedagens únicas para viagens inesquecíveis.</p>
+  </div></div>
+  <form class="search-panel row g-2 align-items-end mt-3">
+    <div class="col-md-5"><label class="form-label">Destino</label><input class="form-control" name="destino" value="{{ destination }}" placeholder="Para onde você vai?"></div>
+    <div class="col-md-3"><label class="form-label">Hóspedes</label><input class="form-control" type="number" min="1" name="hospedes" placeholder="2"></div>
+    <div class="col-md-3"><label class="form-label">Preço máximo/noite (R$)</label><input class="form-control" name="preco" placeholder="500"></div>
+    <div class="col-md-1 d-grid"><button class="btn btn-brand">Ir</button></div>
+  </form>
+</section>
+<div class="d-flex justify-content-between align-items-end mb-3"><div><span class="eyebrow">CURADORIA STAYFINDER</span><h2 class="h3 fw-bold mb-0">Hospedagens em destaque</h2></div><span class="text-muted small">{{ listings|length }} resultado(s)</span></div>
+<div class="row g-4">
+{% for item in listings %}
+  <div class="col-sm-6 col-lg-4 col-xl-3">
+    <a class="listing-card text-decoration-none" href="{% url 'listing_detail' item.pk %}">
+      {% if item.image %}<img src="{{ item.image }}" alt="{{ item.title }}" class="listing-image">{% else %}<div class="listing-placeholder">stayfinder</div>{% endif %}
+      <div class="pt-3"><div class="d-flex justify-content-between"><strong class="text-dark">{{ item.city }}{% if item.state %}, {{ item.state }}{% endif %}</strong><span>★ 4,9</span></div>
+      <div class="text-muted small">{{ item.title }}</div><div class="text-muted small">{{ item.max_guests }} hóspedes · {{ item.bedrooms }} quartos</div>
+      <div class="mt-2 text-dark"><strong>R$ {{ item.nightly_price }}</strong> <span class="text-muted">/ noite</span></div></div>
+    </a>
+  </div>
+{% empty %}
+  <div class="col-12"><div class="empty-state"><h3>Nenhuma hospedagem encontrada</h3><p>Cadastre o primeiro espaço ou tente outra busca.</p><a href="{% url 'listing_create' %}" class="btn btn-dark">Anunciar hospedagem</a></div></div>
+{% endfor %}
+</div>
+{% endblock %}

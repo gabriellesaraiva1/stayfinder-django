@@ -1,0 +1,2 @@
+{% extends "base.html" %}
+{% block content %}<div class="form-shell"><h1 class="h2 fw-bold">Bem-vindo de volta</h1><form method="post" class="card card-body border-0 shadow-sm p-4">{% csrf_token %}{{ form.as_p }}<button class="btn btn-brand">Entrar</button><p class="small mt-3 mb-0">Ainda não tem conta? <a href="{% url 'signup' %}">Cadastre-se</a></p></form></div>{% endblock %}

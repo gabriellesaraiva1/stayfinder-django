@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ listing.title }} — StayFinder{% endblock %}
+{% block content %}
+<a href="/" class="text-decoration-none text-muted">← Voltar às hospedagens</a>
+<div class="d-flex flex-wrap justify-content-between align-items-end mt-3 mb-3"><div><h1 class="h2 fw-bold">{{ listing.title }}</h1><p class="text-muted mb-0">📍 {{ listing.city }}{% if listing.state %}, {{ listing.state }}{% endif %} · {{ listing.max_guests }} hóspedes</p></div>
+{% if user == listing.host %}<a class="btn btn-outline-dark" href="{% url 'listing_edit' listing.pk %}">Editar anúncio</a>{% endif %}</div>
+{% if listing.image %}<img class="detail-image rounded-4 mb-4" src="{{ listing.image }}" alt="{{ listing.title }}">{% else %}<div class="detail-placeholder rounded-4 mb-4">StayFinder</div>{% endif %}
+<div class="row g-5"><div class="col-lg-7"><h2 class="h4">Sobre esta hospedagem</h2><p>{{ listing.description|linebreaks }}</p><hr><h3 class="h5">O que este espaço oferece</h3><div class="row"><div class="col-6">🛏 {{ listing.bedrooms }} quartos</div><div class="col-6">🚿 {{ listing.bathrooms }} banheiros</div><div class="col-6 mt-2">{% if listing.wifi %}📶 Wi-Fi{% endif %}</div><div class="col-6 mt-2">{% if listing.pool %}🏊 Piscina{% endif %}</div><div class="col-6 mt-2">{% if listing.parking %}🚗 Estacionamento{% endif %}</div></div><hr><p class="text-muted">Anfitrião: {{ listing.host.get_full_name|default:listing.host.username }}</p></div>
+<div class="col-lg-5"><div class="booking-card p-4"><div class="h4"><strong>R$ {{ listing.nightly_price }}</strong> <span class="text-muted fs-6 fw-normal">/ noite</span></div><p class="text-muted small">Preço calculado conforme o número de noites.</p><a href="{% url 'booking_create' listing.pk %}" class="btn btn-brand w-100">Solicitar reserva</a><p class="small text-muted mt-3 mb-0">Você ainda não será cobrado nesta demonstração.</p></div></div></div>
+{% endblock %}
